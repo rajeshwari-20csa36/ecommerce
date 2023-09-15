@@ -12,6 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
+    WelcomeEmailJob.perform_later(@user)
   end
 
   # GET /resource/edit

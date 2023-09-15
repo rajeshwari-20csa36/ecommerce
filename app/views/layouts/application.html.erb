@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ECommerce</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>ECommerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= yield :head %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <%= yield :head %>
+</head>
 
-  <body>
+<body>
 
-    <div>
-      <% if user_signed_in? %>
-        Logged in as <strong><%= current_user.email %></strong> |
-        <%= link_to 'Show profile', current_user %> |
-        <%= link_to 'Edit profile', edit_user_registration_path %> |
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path %> |
-        <%= link_to "Login", new_user_session_path %>
-      <% end %>
-    </div>
-    <hr>
+<div>
+  <% if user_signed_in? %>
+    Logged in as <strong><%= current_user.email %></strong> |
+    <%= link_to 'Show profile', current_user %> |
+    <%= link_to 'edit profile', edit_user_registration_path, class: 'btn btn-outline-info', remote: true, data: { 'bs-toggle' => "modal", "bs-target" => "#staticBackdrop" } %> |
+    <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> |
+    <%= link_to "Login", new_user_session_path %>
+  <% end %>
+</div>
+<hr>
 
-    <% flash.each do |type, message| %>
-      <% if type == 'notice' %>
-        <% css_class = 'success' %>
-      <% elsif type == 'alert' %>
-        <% css_class = 'danger' %>
-      <% end %>
-      <div class="<%= "alert alert-#{css_class}" %>">
-        <%= message %>
+<% flash.each do |type, message| %>
+  <% if type == 'notice' %>
+    <% css_class = 'success' %>
+  <% elsif type == 'alert' %>
+    <% css_class = 'danger' %>
+  <% end %>
+  <div class="<%= "alert alert-#{css_class}" %>">
+    <%= message %>
+  </div>
+<% end %>
+
+<%= yield %>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Profile</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    <% end %>
+      <div class="modal-body">
 
-    <%= yield %>
-  </body>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
 </html>
