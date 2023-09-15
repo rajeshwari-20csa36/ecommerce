@@ -1,0 +1,6 @@
+<% if @product.errors.any? %>
+document.getElementById('new_form').innerHTML = ("<%= escape_javascript(render :partial =>'products/form', :locals => { product: @product} ) %>");
+<% else %>
+document.getElementById('new_form').innerHTML = "";
+document.getElementById('table-body').innerHTML += ("<%= escape_javascript(render :partial =>'products/product', :locals => { product: @product} ) %>");
+<% end %>

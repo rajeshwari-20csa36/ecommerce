@@ -1,0 +1,71 @@
+<h1>Products</h1>
+<% unless  @category %>
+  <%= form_with(method: "get", local: true) do %>
+    <%= label_tag :from_date%>
+    <%= date_field_tag :from_date, @from_date %>
+    <%= label_tag :to_date %>
+    <%= date_field_tag :to_date, @to_date %>
+    <%= submit_tag 'Filter' %>
+  <% end %>
+<% end  %>
+
+<% if @products.length > 0 %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <% unless @category.present? %>
+        <th>Category</th>
+      <% end %>
+
+      <th>Name</th>
+      <th>Description</th>
+      <th>Variants</th>
+      <th>Total Ratings</th>
+      <th>Average Rating</th>
+      <th>Status</th>
+
+      <th colspan="3"> Actions</th>
+    </tr>
+    </thead>
+
+    <tbody id = "table-body">
+    <% @products.each do |product| %>
+      <tr>
+        <% unless @category.present? %>
+          <td><%= product.category.name %></td>
+        <% end %>
+
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= product.variants_count %></td>
+        <td><%= product.ratings_count %></td>
+        <td><%= product.ratings_average %></td>
+        <td><%= product.users.include?(current_user) ? 'Read' : 'Unread' %></td>
+
+        <td><%= link_to 'Show', category_product_path(product.category, product) %></td>
+
+        <% if can? :edit, product %>
+          <td><%= link_to 'Edit', edit_category_product_path(product.category, product) %></td>
+        <% end %>
+
+        <% if can? :destroy, product %>
+          <td><%= link_to 'Destroy', category_product_path(product.category, product), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  No products available
+<% end %>
+
+<br><br>
+<% if @category.present? %>
+  <%= link_to 'New Product', new_category_product_path(@category), remote: true %> |
+  <%= link_to 'Back', category_path(@category) %>
+<% end %>
+
+<p id = "new_form"></p>
+<br><br>
+<%= will_paginate @posts %>

@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @comment.description %>
+</p>
+
+<%= link_to 'Edit', edit_category_product_comment_path(@comment) %> |
+<%= link_to 'Back', category_product_comments_path %>
